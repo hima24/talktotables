@@ -1,4 +1,4 @@
-# Olist SQL assistant - container for Azure Container Apps (or any container host)
+# TalkToTables - container for Azure Container Apps (or any container host)
 # Build after running `python -m src.load_data` so data/olist.duckdb exists.
 FROM python:3.11-slim
 
@@ -12,6 +12,8 @@ COPY src/ src/
 COPY rag/ rag/
 COPY eval/ eval/
 COPY app.py .
+COPY .streamlit/ .streamlit/
+COPY sample_data/ sample_data/
 COPY data/olist.duckdb data/olist.duckdb
 
 # Download the embedding model and build the retrieval index at build time,

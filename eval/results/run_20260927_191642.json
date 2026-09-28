@@ -1,0 +1,1869 @@
+[
+  {
+    "id": "e01",
+    "difficulty": "easy",
+    "question": "How many orders are in the dataset?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT COUNT(*) AS orders\nFROM orders",
+    "gold_sql": "SELECT COUNT(*) FROM orders",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1618,
+    "output_tokens": 65,
+    "cost_usd": 0.00028169999999999996,
+    "seconds": 1.02,
+    "retrieved_examples": [
+      "ex17",
+      "ex09",
+      "ex12",
+      "ex01"
+    ],
+    "retrieved_terms": [
+      "items sold",
+      "review score per seller or category",
+      "average order value (AOV)",
+      "customer spend / amount paid"
+    ],
+    "gold_preview": [
+      [
+        "99441"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "99441"
+      ]
+    ]
+  },
+  {
+    "id": "e02",
+    "difficulty": "easy",
+    "question": "How many unique customers are there?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT COUNT(DISTINCT customer_unique_id) AS customers\nFROM customers",
+    "gold_sql": "SELECT COUNT(DISTINCT customer_unique_id) FROM customers",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1672,
+    "output_tokens": 52,
+    "cost_usd": 0.000282,
+    "seconds": 0.76,
+    "retrieved_examples": [
+      "ex09",
+      "ex16",
+      "ex02",
+      "ex15"
+    ],
+    "retrieved_terms": [
+      "customer",
+      "repeat customer",
+      "review score per seller or category",
+      "items sold"
+    ],
+    "gold_preview": [
+      [
+        "96096"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "96096"
+      ]
+    ]
+  },
+  {
+    "id": "e03",
+    "difficulty": "easy",
+    "question": "How many sellers are based in Sao Paulo state?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT COUNT(*) AS sellers\nFROM sellers\nWHERE seller_state = 'SP'",
+    "gold_sql": "SELECT COUNT(*) FROM sellers WHERE seller_state = 'SP'",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1727,
+    "output_tokens": 80,
+    "cost_usd": 0.00030705,
+    "seconds": 0.91,
+    "retrieved_examples": [
+      "ex32",
+      "ex02",
+      "ex36",
+      "ex16"
+    ],
+    "retrieved_terms": [
+      "states and cities",
+      "review score per seller or category",
+      "items sold",
+      "customer"
+    ],
+    "gold_preview": [
+      [
+        "1849"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "1849"
+      ]
+    ]
+  },
+  {
+    "id": "e04",
+    "difficulty": "easy",
+    "question": "What is the average review score across all reviews?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT ROUND(AVG(review_score), 2) AS avg_review_score\nFROM reviews",
+    "gold_sql": "SELECT ROUND(AVG(review_score), 2) FROM reviews",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1859,
+    "output_tokens": 101,
+    "cost_usd": 0.00033944999999999993,
+    "seconds": 1.07,
+    "retrieved_examples": [
+      "ex10",
+      "ex26",
+      "ex11",
+      "ex34"
+    ],
+    "retrieved_terms": [
+      "review score per seller or category",
+      "average order value (AOV)",
+      "top share / concentration",
+      "customer spend / amount paid"
+    ],
+    "gold_preview": [
+      [
+        "4.09"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "4.09"
+      ]
+    ]
+  },
+  {
+    "id": "e05",
+    "difficulty": "easy",
+    "question": "How many orders were canceled?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT COUNT(*) AS canceled_orders\nFROM orders\nWHERE order_status = 'canceled'",
+    "gold_sql": "SELECT COUNT(*) FROM orders WHERE order_status = 'canceled'",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1641,
+    "output_tokens": 67,
+    "cost_usd": 0.00028634999999999994,
+    "seconds": 1.01,
+    "retrieved_examples": [
+      "ex30",
+      "ex01",
+      "ex09",
+      "ex17"
+    ],
+    "retrieved_terms": [
+      "order status",
+      "repeat customer",
+      "review score per seller or category",
+      "average order value (AOV)"
+    ],
+    "gold_preview": [
+      [
+        "625"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "625"
+      ]
+    ]
+  },
+  {
+    "id": "e06",
+    "difficulty": "easy",
+    "question": "Which payment type appears in the most payment records?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT\n    payment_type,\n    COUNT(*) AS payment_record_count\nFROM payments\nGROUP BY payment_type\nORDER BY payment_record_count DESC\nLIMIT 1",
+    "gold_sql": "SELECT payment_type FROM payments GROUP BY payment_type ORDER BY COUNT(*) DESC LIMIT 1",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1638,
+    "output_tokens": 165,
+    "cost_usd": 0.0003447,
+    "seconds": 9.83,
+    "retrieved_examples": [
+      "ex14",
+      "ex12",
+      "ex13",
+      "ex15"
+    ],
+    "retrieved_terms": [
+      "customer spend / amount paid",
+      "customer",
+      "repeat customer",
+      "review score per seller or category"
+    ],
+    "gold_preview": [
+      [
+        "credit_card"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "credit_card",
+        "76795"
+      ]
+    ]
+  },
+  {
+    "id": "e07",
+    "difficulty": "easy",
+    "question": "How many products have no category?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT COUNT(*) AS products_without_category\nFROM products\nWHERE product_category_name IS NULL",
+    "gold_sql": "SELECT COUNT(*) FROM products WHERE product_category_name IS NULL",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1737,
+    "output_tokens": 94,
+    "cost_usd": 0.00031695,
+    "seconds": 13.24,
+    "retrieved_examples": [
+      "ex17",
+      "ex08",
+      "ex33",
+      "ex12"
+    ],
+    "retrieved_terms": [
+      "category names",
+      "items sold",
+      "review score per seller or category",
+      "customer"
+    ],
+    "gold_preview": [
+      [
+        "610"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "610"
+      ]
+    ]
+  },
+  {
+    "id": "e08",
+    "difficulty": "easy",
+    "question": "What is the highest price paid for a single item?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT ROUND(MAX(price), 2) AS highest_price\nFROM order_items",
+    "gold_sql": "SELECT MAX(price) FROM order_items",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1621,
+    "output_tokens": 104,
+    "cost_usd": 0.00030555,
+    "seconds": 5.31,
+    "retrieved_examples": [
+      "ex03",
+      "ex35",
+      "ex14",
+      "ex17"
+    ],
+    "retrieved_terms": [
+      "customer spend / amount paid",
+      "revenue",
+      "items sold",
+      "top share / concentration"
+    ],
+    "gold_preview": [
+      [
+        "6735.0"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "6735.0"
+      ]
+    ]
+  },
+  {
+    "id": "e09",
+    "difficulty": "easy",
+    "question": "Which 5 states have the most unique customers?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT\n    c.customer_state,\n    COUNT(DISTINCT c.customer_unique_id) AS unique_customers\nFROM customers c\nGROUP BY c.customer_state\nORDER BY unique_customers DESC\nLIMIT 5",
+    "gold_sql": "SELECT customer_state FROM customers GROUP BY customer_state ORDER BY COUNT(DISTINCT customer_unique_id) DESC LIMIT 5",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1908,
+    "output_tokens": 235,
+    "cost_usd": 0.0004272,
+    "seconds": 15.65,
+    "retrieved_examples": [
+      "ex04",
+      "ex16",
+      "ex23",
+      "ex27"
+    ],
+    "retrieved_terms": [
+      "customer",
+      "repeat customer",
+      "review score per seller or category",
+      "states and cities"
+    ],
+    "gold_preview": [
+      [
+        "SP"
+      ],
+      [
+        "RJ"
+      ],
+      [
+        "MG"
+      ],
+      [
+        "RS"
+      ],
+      [
+        "PR"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "SP",
+        "40302"
+      ],
+      [
+        "RJ",
+        "12384"
+      ],
+      [
+        "MG",
+        "11259"
+      ],
+      [
+        "RS",
+        "5277"
+      ],
+      [
+        "PR",
+        "4882"
+      ]
+    ]
+  },
+  {
+    "id": "e10",
+    "difficulty": "easy",
+    "question": "How many orders are there in each order status?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT\n    order_status,\n    COUNT(*) AS orders\nFROM orders\nGROUP BY order_status\nORDER BY orders DESC",
+    "gold_sql": "SELECT order_status, COUNT(*) FROM orders GROUP BY order_status",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1598,
+    "output_tokens": 100,
+    "cost_usd": 0.00029969999999999997,
+    "seconds": 4.44,
+    "retrieved_examples": [
+      "ex17",
+      "ex01",
+      "ex18",
+      "ex12"
+    ],
+    "retrieved_terms": [
+      "order status",
+      "items sold",
+      "review score per seller or category",
+      "repeat customer"
+    ],
+    "gold_preview": [
+      [
+        "invoiced",
+        "314"
+      ],
+      [
+        "processing",
+        "301"
+      ],
+      [
+        "unavailable",
+        "609"
+      ],
+      [
+        "canceled",
+        "625"
+      ],
+      [
+        "shipped",
+        "1107"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "delivered",
+        "96478"
+      ],
+      [
+        "shipped",
+        "1107"
+      ],
+      [
+        "canceled",
+        "625"
+      ],
+      [
+        "unavailable",
+        "609"
+      ],
+      [
+        "invoiced",
+        "314"
+      ]
+    ]
+  },
+  {
+    "id": "e11",
+    "difficulty": "easy",
+    "question": "What is the average freight value per item?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT ROUND(AVG(freight_value), 2) AS avg_freight_value\nFROM order_items",
+    "gold_sql": "SELECT ROUND(AVG(freight_value), 2) FROM order_items",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1763,
+    "output_tokens": 110,
+    "cost_usd": 0.00033045,
+    "seconds": 14.89,
+    "retrieved_examples": [
+      "ex03",
+      "ex35",
+      "ex29",
+      "ex34"
+    ],
+    "retrieved_terms": [
+      "freight ratio",
+      "revenue",
+      "customer spend / amount paid",
+      "average order value (AOV)"
+    ],
+    "gold_preview": [
+      [
+        "19.99"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "19.99"
+      ]
+    ]
+  },
+  {
+    "id": "e12",
+    "difficulty": "easy",
+    "question": "How many orders were purchased in 2017?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT COUNT(*) AS orders\nFROM orders\nWHERE YEAR(order_purchase_timestamp) = 2017",
+    "gold_sql": "SELECT COUNT(*) FROM orders WHERE year(order_purchase_timestamp) = 2017",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1702,
+    "output_tokens": 119,
+    "cost_usd": 0.00032669999999999997,
+    "seconds": 11.83,
+    "retrieved_examples": [
+      "ex21",
+      "ex01",
+      "ex17",
+      "ex09"
+    ],
+    "retrieved_terms": [
+      "review score per seller or category",
+      "items sold",
+      "order status",
+      "repeat customer"
+    ],
+    "gold_preview": [
+      [
+        "45101"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "45101"
+      ]
+    ]
+  },
+  {
+    "id": "m01",
+    "difficulty": "medium",
+    "question": "What was total revenue in 2017?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT ROUND(SUM(oi.price), 2) AS total_revenue\nFROM orders o\nJOIN order_items oi ON oi.order_id = o.order_id\nWHERE o.order_status = 'delivered'\n  AND YEAR(o.order_purchase_timestamp) = 2017",
+    "gold_sql": "SELECT ROUND(SUM(oi.price), 2) FROM orders o JOIN order_items oi ON oi.order_id = o.order_id WHERE o.order_status = 'delivered' AND year(o.order_purchase_timestamp) = 2017",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1891,
+    "output_tokens": 231,
+    "cost_usd": 0.00042225,
+    "seconds": 15.64,
+    "retrieved_examples": [
+      "ex22",
+      "ex05",
+      "ex20",
+      "ex04"
+    ],
+    "retrieved_terms": [
+      "revenue",
+      "customer spend / amount paid",
+      "top share / concentration",
+      "items sold"
+    ],
+    "gold_preview": [
+      [
+        "5962902.01"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "5962902.01"
+      ]
+    ]
+  },
+  {
+    "id": "m02",
+    "difficulty": "medium",
+    "question": "What are the top 5 product categories by revenue? Use English category names.",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT \n    COALESCE(t.product_category_name_english, p.product_category_name) AS category,\n    ROUND(SUM(oi.price), 2) AS revenue\nFROM orders o\nJOIN order_items oi ON oi.order_id = o.order_id\nJOIN products p ON p.product_id = oi.product_id\nLEFT JOIN category_translation t \n    ON t.product_category_name = p.product_category_name\nWHERE o.order_status = 'delivered'\nGROUP BY category\nORDER BY revenue DESC\nLIMIT 5",
+    "gold_sql": "SELECT COALESCE(t.product_category_name_english, p.product_category_name) AS category FROM orders o JOIN order_items oi ON oi.order_id = o.order_id JOIN products p ON p.product_id = oi.product_id LEFT JOIN category_translation t ON t.product_category_name = p.product_category_name WHERE o.order_status = 'delivered' GROUP BY category ORDER BY SUM(oi.price) DESC LIMIT 5",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1963,
+    "output_tokens": 184,
+    "cost_usd": 0.00040484999999999995,
+    "seconds": 8.52,
+    "retrieved_examples": [
+      "ex08",
+      "ex20",
+      "ex04",
+      "ex23"
+    ],
+    "retrieved_terms": [
+      "category names",
+      "revenue",
+      "review score per seller or category",
+      "customer spend / amount paid"
+    ],
+    "gold_preview": [
+      [
+        "health_beauty"
+      ],
+      [
+        "watches_gifts"
+      ],
+      [
+        "bed_bath_table"
+      ],
+      [
+        "sports_leisure"
+      ],
+      [
+        "computers_accessories"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "health_beauty",
+        "1233131.72"
+      ],
+      [
+        "watches_gifts",
+        "1166176.98"
+      ],
+      [
+        "bed_bath_table",
+        "1023434.76"
+      ],
+      [
+        "sports_leisure",
+        "954852.55"
+      ],
+      [
+        "computers_accessories",
+        "888724.61"
+      ]
+    ]
+  },
+  {
+    "id": "m03",
+    "difficulty": "medium",
+    "question": "What is the average delivery time in days for delivered orders?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT \n    ROUND(\n        AVG(\n            date_diff('day', \n                CAST(order_purchase_timestamp AS DATE), \n                CAST(order_delivered_customer_date AS DATE)\n            )\n        ), 2\n    ) AS avg_delivery_days\nFROM orders\nWHERE order_status = 'delivered'\n  AND order_delivered_customer_date IS NOT NULL",
+    "gold_sql": "SELECT ROUND(AVG(date_diff('day', CAST(order_purchase_timestamp AS DATE), CAST(order_delivered_customer_date AS DATE))), 2) FROM orders WHERE order_status = 'delivered' AND order_delivered_customer_date IS NOT NULL",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1786,
+    "output_tokens": 229,
+    "cost_usd": 0.00040529999999999993,
+    "seconds": 15.04,
+    "retrieved_examples": [
+      "ex07",
+      "ex10",
+      "ex35",
+      "ex01"
+    ],
+    "retrieved_terms": [
+      "delivery time",
+      "estimated vs actual delivery gap",
+      "late delivery",
+      "order status"
+    ],
+    "gold_preview": [
+      [
+        "12.5"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "12.5"
+      ]
+    ]
+  },
+  {
+    "id": "m04",
+    "difficulty": "medium",
+    "question": "What percentage of delivered orders arrived late?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT\n    ROUND(\n        100.0 *\n        SUM(CASE\n                WHEN CAST(o.order_delivered_customer_date AS DATE) > CAST(o.order_estimated_delivery_date AS DATE) THEN 1\n                ELSE 0\n            END) / COUNT(*),\n        2\n    ) AS late_pct\nFROM orders o\nWHERE o.order_status = 'delivered'\n  AND o.order_delivered_customer_date IS NOT NULL",
+    "gold_sql": "SELECT ROUND(100.0 * AVG(CASE WHEN CAST(order_delivered_customer_date AS DATE) > CAST(order_estimated_delivery_date AS DATE) THEN 1 ELSE 0 END), 2) FROM orders WHERE order_status = 'delivered' AND order_delivered_customer_date IS NOT NULL",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1826,
+    "output_tokens": 281,
+    "cost_usd": 0.0004425,
+    "seconds": 15.74,
+    "retrieved_examples": [
+      "ex06",
+      "ex10",
+      "ex01",
+      "ex34"
+    ],
+    "retrieved_terms": [
+      "late delivery",
+      "order status",
+      "estimated vs actual delivery gap",
+      "delivery time"
+    ],
+    "gold_preview": [
+      [
+        "6.77"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "6.77"
+      ]
+    ]
+  },
+  {
+    "id": "m05",
+    "difficulty": "medium",
+    "question": "What is the average review score for orders that arrived late?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH late_orders AS (\n    SELECT o.order_id\n    FROM orders o\n    WHERE o.order_status = 'delivered'\n      AND o.order_delivered_customer_date IS NOT NULL\n      AND CAST(o.order_delivered_customer_date AS DATE) > CAST(o.order_estimated_delivery_date AS DATE)\n)\nSELECT ROUND(AVG(r.review_score), 2) AS avg_late_review_score\nFROM (\n    SELECT DISTINCT r.order_id, r.review_score\n    FROM reviews r\n    JOIN late_orders lo ON r.order_id = lo.order_id\n) r",
+    "gold_sql": "SELECT ROUND(AVG(r.review_score), 2) FROM orders o JOIN reviews r ON r.order_id = o.order_id WHERE o.order_status = 'delivered' AND o.order_delivered_customer_date IS NOT NULL AND CAST(o.order_delivered_customer_date AS DATE) > CAST(o.order_estimated_delivery_date AS DATE)",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1956,
+    "output_tokens": 531,
+    "cost_usd": 0.000612,
+    "seconds": 16.69,
+    "retrieved_examples": [
+      "ex10",
+      "ex34",
+      "ex11",
+      "ex06"
+    ],
+    "retrieved_terms": [
+      "late delivery",
+      "review score per seller or category",
+      "estimated vs actual delivery gap",
+      "order status"
+    ],
+    "gold_preview": [
+      [
+        "2.27"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "2.27"
+      ]
+    ]
+  },
+  {
+    "id": "m06",
+    "difficulty": "medium",
+    "question": "Which 10 sellers have the highest revenue?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH seller_rev AS (\n    SELECT\n        oi.seller_id,\n        SUM(oi.price) AS revenue\n    FROM orders o\n    JOIN order_items oi\n        ON oi.order_id = o.order_id\n    WHERE o.order_status = 'delivered'\n    GROUP BY oi.seller_id\n)\nSELECT\n    seller_id,\n    ROUND(revenue, 2) AS revenue\nFROM seller_rev\nORDER BY revenue DESC\nLIMIT 10",
+    "gold_sql": "SELECT oi.seller_id FROM orders o JOIN order_items oi ON oi.order_id = o.order_id WHERE o.order_status = 'delivered' GROUP BY oi.seller_id ORDER BY SUM(oi.price) DESC LIMIT 10",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1902,
+    "output_tokens": 289,
+    "cost_usd": 0.00045870000000000004,
+    "seconds": 17.77,
+    "retrieved_examples": [
+      "ex16",
+      "ex23",
+      "ex04",
+      "ex20"
+    ],
+    "retrieved_terms": [
+      "revenue",
+      "top share / concentration",
+      "review score per seller or category",
+      "items sold"
+    ],
+    "gold_preview": [
+      [
+        "4869f7a5dfa277a7dca6462dcf3b52b2"
+      ],
+      [
+        "53243585a1d6dc2643021fd1853d8905"
+      ],
+      [
+        "4a3ca9315b744ce9f8e9374361493884"
+      ],
+      [
+        "fa1c13f2614d7b5c4749cbc52fecda94"
+      ],
+      [
+        "7c67e1448b00f6e969d365cea6b010ab"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "4869f7a5dfa277a7dca6462dcf3b52b2",
+        "226987.93"
+      ],
+      [
+        "53243585a1d6dc2643021fd1853d8905",
+        "217940.44"
+      ],
+      [
+        "4a3ca9315b744ce9f8e9374361493884",
+        "196882.12"
+      ],
+      [
+        "fa1c13f2614d7b5c4749cbc52fecda94",
+        "190917.14"
+      ],
+      [
+        "7c67e1448b00f6e969d365cea6b010ab",
+        "186570.05"
+      ]
+    ]
+  },
+  {
+    "id": "m07",
+    "difficulty": "medium",
+    "question": "What is the average order value?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT ROUND(SUM(oi.price) / COUNT(DISTINCT o.order_id), 2) AS average_order_value\nFROM orders o\nJOIN order_items oi\n  ON oi.order_id = o.order_id\nWHERE o.order_status = 'delivered'",
+    "gold_sql": "SELECT ROUND(SUM(oi.price) / COUNT(DISTINCT o.order_id), 2) FROM orders o JOIN order_items oi ON oi.order_id = o.order_id WHERE o.order_status = 'delivered'",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1689,
+    "output_tokens": 281,
+    "cost_usd": 0.00042195,
+    "seconds": 16.63,
+    "retrieved_examples": [
+      "ex35",
+      "ex10",
+      "ex03",
+      "ex17"
+    ],
+    "retrieved_terms": [
+      "average order value (AOV)",
+      "items sold",
+      "review score per seller or category",
+      "customer spend / amount paid"
+    ],
+    "gold_preview": [
+      [
+        "137.04"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "137.04"
+      ]
+    ]
+  },
+  {
+    "id": "m08",
+    "difficulty": "medium",
+    "question": "How many orders did customers in Rio de Janeiro state place in 2018?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT COUNT(*) AS orders\nFROM orders o\nJOIN customers c ON c.customer_id = o.customer_id\nWHERE c.customer_state = 'RJ'\n  AND EXTRACT(year FROM o.order_purchase_timestamp) = 2018",
+    "gold_sql": "SELECT COUNT(*) FROM orders o JOIN customers c ON c.customer_id = o.customer_id WHERE c.customer_state = 'RJ' AND year(o.order_purchase_timestamp) = 2018",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1661,
+    "output_tokens": 138,
+    "cost_usd": 0.00033194999999999996,
+    "seconds": 6.48,
+    "retrieved_examples": [
+      "ex36",
+      "ex09",
+      "ex01",
+      "ex30"
+    ],
+    "retrieved_terms": [
+      "states and cities",
+      "repeat customer",
+      "customer",
+      "average order value (AOV)"
+    ],
+    "gold_preview": [
+      [
+        "6571"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "6571"
+      ]
+    ]
+  },
+  {
+    "id": "m09",
+    "difficulty": "medium",
+    "question": "How many orders were placed in each month of 2017?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT \n    CAST(date_trunc('month', order_purchase_timestamp) AS DATE) AS month,\n    COUNT(*) AS orders\nFROM orders\nWHERE year(order_purchase_timestamp) = 2017\nGROUP BY month\nORDER BY month",
+    "gold_sql": "SELECT CAST(date_trunc('month', order_purchase_timestamp) AS DATE) AS month, COUNT(*) FROM orders WHERE year(order_purchase_timestamp) = 2017 GROUP BY month",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1733,
+    "output_tokens": 139,
+    "cost_usd": 0.00034334999999999997,
+    "seconds": 11.29,
+    "retrieved_examples": [
+      "ex21",
+      "ex18",
+      "ex30",
+      "ex01"
+    ],
+    "retrieved_terms": [
+      "time periods",
+      "items sold",
+      "review score per seller or category",
+      "order status"
+    ],
+    "gold_preview": [
+      [
+        "2017-01-01",
+        "800"
+      ],
+      [
+        "2017-02-01",
+        "1780"
+      ],
+      [
+        "2017-03-01",
+        "2682"
+      ],
+      [
+        "2017-04-01",
+        "2404"
+      ],
+      [
+        "2017-05-01",
+        "3700"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "2017-01-01",
+        "800"
+      ],
+      [
+        "2017-02-01",
+        "1780"
+      ],
+      [
+        "2017-03-01",
+        "2682"
+      ],
+      [
+        "2017-04-01",
+        "2404"
+      ],
+      [
+        "2017-05-01",
+        "3700"
+      ]
+    ]
+  },
+  {
+    "id": "m10",
+    "difficulty": "medium",
+    "question": "What percentage of payment records are boleto payments?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT\n    ROUND(100.0 * COUNT(*) FILTER (WHERE payment_type = 'boleto') / COUNT(*), 2) AS boleto_percentage\nFROM payments",
+    "gold_sql": "SELECT ROUND(100.0 * AVG(CASE WHEN payment_type = 'boleto' THEN 1 ELSE 0 END), 2) FROM payments",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1742,
+    "output_tokens": 144,
+    "cost_usd": 0.0003477,
+    "seconds": 14.42,
+    "retrieved_examples": [
+      "ex14",
+      "ex12",
+      "ex13",
+      "ex20"
+    ],
+    "retrieved_terms": [
+      "customer spend / amount paid",
+      "top share / concentration",
+      "review score per seller or category",
+      "revenue"
+    ],
+    "gold_preview": [
+      [
+        "19.04"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "19.04"
+      ]
+    ]
+  },
+  {
+    "id": "m11",
+    "difficulty": "medium",
+    "question": "Which 5 customer cities have the most unique customers?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT\n    c.customer_city,\n    COUNT(DISTINCT c.customer_unique_id) AS unique_customers\nFROM customers AS c\nGROUP BY c.customer_city\nORDER BY unique_customers DESC\nLIMIT 5",
+    "gold_sql": "SELECT customer_city FROM customers GROUP BY customer_city ORDER BY COUNT(DISTINCT customer_unique_id) DESC LIMIT 5",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1733,
+    "output_tokens": 111,
+    "cost_usd": 0.00032654999999999994,
+    "seconds": 15.43,
+    "retrieved_examples": [
+      "ex04",
+      "ex16",
+      "ex15",
+      "ex02"
+    ],
+    "retrieved_terms": [
+      "customer",
+      "repeat customer",
+      "states and cities",
+      "review score per seller or category"
+    ],
+    "gold_preview": [
+      [
+        "sao paulo"
+      ],
+      [
+        "rio de janeiro"
+      ],
+      [
+        "belo horizonte"
+      ],
+      [
+        "brasilia"
+      ],
+      [
+        "curitiba"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "sao paulo",
+        "14984"
+      ],
+      [
+        "rio de janeiro",
+        "6620"
+      ],
+      [
+        "belo horizonte",
+        "2672"
+      ],
+      [
+        "brasilia",
+        "2069"
+      ],
+      [
+        "curitiba",
+        "1465"
+      ]
+    ]
+  },
+  {
+    "id": "m12",
+    "difficulty": "medium",
+    "question": "What is the average number of items per order?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH total_items AS (\n    SELECT COUNT(*) AS cnt_items\n    FROM order_items\n),\ntotal_orders AS (\n    SELECT COUNT(DISTINCT order_id) AS cnt_orders\n    FROM orders\n)\nSELECT ROUND(cnt_items::DOUBLE / cnt_orders, 2) AS avg_items_per_order\nFROM total_items, total_orders",
+    "gold_sql": "SELECT ROUND(COUNT(*) * 1.0 / COUNT(DISTINCT order_id), 2) FROM order_items",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1630,
+    "output_tokens": 241,
+    "cost_usd": 0.0003891,
+    "seconds": 5.68,
+    "retrieved_examples": [
+      "ex17",
+      "ex35",
+      "ex03",
+      "ex01"
+    ],
+    "retrieved_terms": [
+      "items sold",
+      "average order value (AOV)",
+      "review score per seller or category",
+      "customer spend / amount paid"
+    ],
+    "gold_preview": [
+      [
+        "1.14"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "1.13"
+      ]
+    ]
+  },
+  {
+    "id": "m13",
+    "difficulty": "medium",
+    "question": "How many different sellers have sold at least one health_beauty product?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT COUNT(DISTINCT oi.seller_id) AS seller_count\nFROM order_items oi\nJOIN products p\n  ON p.product_id = oi.product_id\nLEFT JOIN category_translation t\n  USING (product_category_name)\nWHERE COALESCE(t.product_category_name_english, p.product_category_name) = 'health_beauty'",
+    "gold_sql": "SELECT COUNT(DISTINCT oi.seller_id) FROM order_items oi JOIN products p ON p.product_id = oi.product_id JOIN category_translation t ON t.product_category_name = p.product_category_name WHERE t.product_category_name_english = 'health_beauty'",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1806,
+    "output_tokens": 254,
+    "cost_usd": 0.00042329999999999993,
+    "seconds": 13.53,
+    "retrieved_examples": [
+      "ex16",
+      "ex08",
+      "ex33",
+      "ex09"
+    ],
+    "retrieved_terms": [
+      "review score per seller or category",
+      "items sold",
+      "customer",
+      "category names"
+    ],
+    "gold_preview": [
+      [
+        "492"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "492"
+      ]
+    ]
+  },
+  {
+    "id": "m14",
+    "difficulty": "medium",
+    "question": "What was the total freight value across all orders purchased in 2018?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT ROUND(SUM(oi.freight_value), 2) AS total_freight\nFROM order_items AS oi\nJOIN orders AS o\n  ON oi.order_id = o.order_id\nWHERE year(o.order_purchase_timestamp) = 2018",
+    "gold_sql": "SELECT ROUND(SUM(oi.freight_value), 2) FROM orders o JOIN order_items oi ON oi.order_id = o.order_id WHERE year(o.order_purchase_timestamp) = 2018",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1718,
+    "output_tokens": 356,
+    "cost_usd": 0.00047129999999999996,
+    "seconds": 14.99,
+    "retrieved_examples": [
+      "ex29",
+      "ex35",
+      "ex01",
+      "ex21"
+    ],
+    "retrieved_terms": [
+      "revenue",
+      "freight ratio",
+      "customer spend / amount paid",
+      "average order value (AOV)"
+    ],
+    "gold_preview": [
+      [
+        "1257646.8"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "1257646.8"
+      ]
+    ]
+  },
+  {
+    "id": "m15",
+    "difficulty": "medium",
+    "question": "Which customer state has the longest average delivery time for delivered orders?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT\n    c.customer_state,\n    ROUND(AVG(date_diff('day',\n                        CAST(o.order_purchase_timestamp AS DATE),\n                        CAST(o.order_delivered_customer_date AS DATE)\n               )), 2) AS avg_delivery_days\nFROM orders AS o\nJOIN customers AS c\n  ON c.customer_id = o.customer_id\nWHERE o.order_status = 'delivered'\n  AND o.order_delivered_customer_date IS NOT NULL\nGROUP BY c.customer_state\nORDER BY avg_delivery_days DESC\nLIMIT 1",
+    "gold_sql": "SELECT c.customer_state FROM orders o JOIN customers c ON c.customer_id = o.customer_id WHERE o.order_status = 'delivered' AND o.order_delivered_customer_date IS NOT NULL GROUP BY c.customer_state ORDER BY AVG(date_diff('day', CAST(o.order_purchase_timestamp AS DATE), CAST(o.order_delivered_customer_date AS DATE))) DESC LIMIT 1",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1867,
+    "output_tokens": 348,
+    "cost_usd": 0.00048885,
+    "seconds": 9.15,
+    "retrieved_examples": [
+      "ex06",
+      "ex07",
+      "ex27",
+      "ex19"
+    ],
+    "retrieved_terms": [
+      "delivery time",
+      "late delivery",
+      "estimated vs actual delivery gap",
+      "order status"
+    ],
+    "gold_preview": [
+      [
+        "RR"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "RR",
+        "29.34"
+      ]
+    ]
+  },
+  {
+    "id": "m16",
+    "difficulty": "medium",
+    "question": "How many orders were paid with more than one payment type?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "SELECT COUNT(*) AS orders\nFROM (\n    SELECT order_id\n    FROM payments\n    GROUP BY order_id\n    HAVING COUNT(DISTINCT payment_type) > 1\n) AS multi_payment_orders",
+    "gold_sql": "SELECT COUNT(*) FROM (SELECT order_id FROM payments GROUP BY order_id HAVING COUNT(DISTINCT payment_type) > 1) t",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1701,
+    "output_tokens": 178,
+    "cost_usd": 0.00036195,
+    "seconds": 14.59,
+    "retrieved_examples": [
+      "ex12",
+      "ex14",
+      "ex09",
+      "ex35"
+    ],
+    "retrieved_terms": [
+      "customer spend / amount paid",
+      "repeat customer",
+      "review score per seller or category",
+      "customer"
+    ],
+    "gold_preview": [
+      [
+        "2246"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "2246"
+      ]
+    ]
+  },
+  {
+    "id": "h01",
+    "difficulty": "hard",
+    "question": "What percentage of unique customers placed more than one order?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH cust_orders AS (\n    SELECT \n        c.customer_unique_id,\n        COUNT(DISTINCT o.order_id) AS orders_cnt\n    FROM orders o\n    JOIN customers c \n        ON c.customer_id = o.customer_id\n    GROUP BY c.customer_unique_id\n),\ntotals AS (\n    SELECT \n        COUNT(*) AS total_customers,\n        COUNT(CASE WHEN orders_cnt > 1 THEN 1 END) AS repeat_customers\n    FROM cust_orders\n)\nSELECT \n    ROUND(100.0 * repeat_customers / total_customers, 2) AS pct_customers\nFROM totals",
+    "gold_sql": "SELECT ROUND(100.0 * SUM(CASE WHEN n > 1 THEN 1 ELSE 0 END) / COUNT(*), 2) FROM (SELECT c.customer_unique_id, COUNT(DISTINCT o.order_id) AS n FROM customers c JOIN orders o ON o.customer_id = c.customer_id GROUP BY c.customer_unique_id) t",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1773,
+    "output_tokens": 393,
+    "cost_usd": 0.00050175,
+    "seconds": 7.34,
+    "retrieved_examples": [
+      "ex09",
+      "ex15",
+      "ex31",
+      "ex17"
+    ],
+    "retrieved_terms": [
+      "customer",
+      "repeat customer",
+      "review score per seller or category",
+      "customer spend / amount paid"
+    ],
+    "gold_preview": [
+      [
+        "3.12"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "3.12"
+      ]
+    ]
+  },
+  {
+    "id": "h02",
+    "difficulty": "hard",
+    "question": "Among product categories with at least 500 delivered orders, which 5 have the highest late-delivery rate? Use English names.",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH delivered_orders AS (\n    SELECT \n        o.order_id,\n        CAST(o.order_delivered_customer_date AS DATE) AS delivered_date,\n        CAST(o.order_estimated_delivery_date AS DATE) AS est_date,\n        CASE \n            WHEN CAST(o.order_delivered_customer_date AS DATE) > CAST(o.order_estimated_delivery_date AS DATE) \n            THEN 1 \n            ELSE 0 \n        END AS is_late,\n        p.product_category_name\n    FROM orders o\n    JOIN order_items oi      ON oi.order_id = o.order_id\n    JOIN products p          ON p.product_id = oi.product_id\n    WHERE o.order_status = 'delivered'\n      AND o.order_delivered_customer_date IS NOT NULL\n)\n\nSELECT \n    COALESCE(t.product_category_name_english, d.product_category_name) AS category,\n    ROUND(\n        100.0 * COUNT(DISTINCT CASE WHEN d.is_late = 1 THEN d.order_id END) \n        / COUNT(DISTINCT d.order_id),\n        2\n    ) AS late_rate_pct\nFROM delivered_orders d\nLEFT JOIN category_translation t \n    ON t.product_category_name = d.product_category_name\nGROUP BY category\nHAVING COUNT(DISTINCT d.order_id) >= 500\nORDER BY late_rate_pct DESC\nLIMIT 5",
+    "gold_sql": "WITH oc AS (SELECT DISTINCT o.order_id, COALESCE(t.product_category_name_english, p.product_category_name) AS category, CASE WHEN CAST(o.order_delivered_customer_date AS DATE) > CAST(o.order_estimated_delivery_date AS DATE) THEN 1 ELSE 0 END AS late FROM orders o JOIN order_items oi ON oi.order_id = o.order_id JOIN products p ON p.product_id = oi.product_id LEFT JOIN category_translation t ON t.product_category_name = p.product_category_name WHERE o.order_status = 'delivered' AND o.order_delivered_customer_date IS NOT NULL) SELECT category FROM oc GROUP BY category HAVING COUNT(*) >= 500 ORDER BY AVG(late) DESC LIMIT 5",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1801,
+    "output_tokens": 900,
+    "cost_usd": 0.0008101499999999999,
+    "seconds": 17.19,
+    "retrieved_examples": [
+      "ex08",
+      "ex06",
+      "ex15",
+      "ex17"
+    ],
+    "retrieved_terms": [
+      "late delivery",
+      "category names",
+      "order status",
+      "review score per seller or category"
+    ],
+    "gold_preview": [
+      [
+        "office_furniture"
+      ],
+      [
+        "baby"
+      ],
+      [
+        "electronics"
+      ],
+      [
+        "musical_instruments"
+      ],
+      [
+        "health_beauty"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "baby",
+        "8.05"
+      ],
+      [
+        "office_furniture",
+        "8.05"
+      ],
+      [
+        "electronics",
+        "7.63"
+      ],
+      [
+        "musical_instruments",
+        "7.53"
+      ],
+      [
+        "health_beauty",
+        "7.51"
+      ]
+    ]
+  },
+  {
+    "id": "h03",
+    "difficulty": "hard",
+    "question": "What was the month-over-month revenue growth percentage for each month from January to August 2018?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": false,
+    "sql": "WITH monthly AS (\n    SELECT \n        CAST(date_trunc('month', o.order_purchase_timestamp) AS DATE) AS month,\n        SUM(oi.price) AS revenue\n    FROM orders o\n    JOIN order_items oi ON oi.order_id = o.order_id\n    WHERE o.order_status = 'delivered'\n      AND year(o.order_purchase_timestamp) = 2018\n      AND EXTRACT(MONTH FROM o.order_purchase_timestamp) BETWEEN 1 AND 8\n    GROUP BY month\n)\nSELECT \n    month,\n    ROUND(revenue, 2) AS revenue,\n    ROUND(\n        100.0 * (revenue - LAG(revenue) OVER (ORDER BY month)) \n                / LAG(revenue) OVER (ORDER BY month),\n        2\n    ) AS mom_growth_pct\nFROM monthly\nORDER BY month",
+    "gold_sql": "WITH m AS (SELECT CAST(date_trunc('month', o.order_purchase_timestamp) AS DATE) AS month, SUM(oi.price) AS revenue FROM orders o JOIN order_items oi ON oi.order_id = o.order_id WHERE o.order_status = 'delivered' GROUP BY month), g AS (SELECT month, 100.0 * (revenue - LAG(revenue) OVER (ORDER BY month)) / LAG(revenue) OVER (ORDER BY month) AS growth FROM m) SELECT month, ROUND(growth, 2) FROM g WHERE month BETWEEN DATE '2018-01-01' AND DATE '2018-08-01'",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1972,
+    "output_tokens": 514,
+    "cost_usd": 0.0006042,
+    "seconds": 13.55,
+    "retrieved_examples": [
+      "ex05",
+      "ex22",
+      "ex21",
+      "ex20"
+    ],
+    "retrieved_terms": [
+      "time periods",
+      "revenue",
+      "customer spend / amount paid",
+      "top share / concentration"
+    ],
+    "gold_preview": [
+      [
+        "2018-01-01",
+        "27.36"
+      ],
+      [
+        "2018-02-01",
+        "-10.62"
+      ],
+      [
+        "2018-03-01",
+        "15.36"
+      ],
+      [
+        "2018-04-01",
+        "2.12"
+      ],
+      [
+        "2018-05-01",
+        "0.41"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "2018-01-01",
+        "924645.0",
+        NaN
+      ],
+      [
+        "2018-02-01",
+        "826437.13",
+        "-10.62"
+      ],
+      [
+        "2018-03-01",
+        "953356.25",
+        "15.36"
+      ],
+      [
+        "2018-04-01",
+        "973534.09",
+        "2.12"
+      ],
+      [
+        "2018-05-01",
+        "977544.69",
+        "0.41"
+      ]
+    ]
+  },
+  {
+    "id": "h04",
+    "difficulty": "hard",
+    "question": "Which sellers have an average review score below 3 across at least 50 reviewed orders?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH seller_reviews AS (\n    SELECT DISTINCT\n        oi.seller_id,\n        r.order_id,\n        r.review_id,\n        r.review_score\n    FROM order_items oi\n    JOIN reviews r\n      ON r.order_id = oi.order_id\n)\nSELECT\n    seller_id,\n    ROUND(AVG(review_score), 2) AS avg_score,\n    COUNT(DISTINCT order_id)      AS reviewed_orders\nFROM seller_reviews\nGROUP BY seller_id\nHAVING AVG(review_score) < 3\n   AND COUNT(DISTINCT order_id) >= 50\nORDER BY avg_score ASC",
+    "gold_sql": "WITH sr AS (SELECT DISTINCT oi.seller_id, r.order_id, r.review_id, r.review_score FROM order_items oi JOIN reviews r ON r.order_id = oi.order_id) SELECT seller_id FROM sr GROUP BY seller_id HAVING COUNT(DISTINCT order_id) >= 50 AND AVG(review_score) < 3",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1893,
+    "output_tokens": 311,
+    "cost_usd": 0.00047054999999999997,
+    "seconds": 8.94,
+    "retrieved_examples": [
+      "ex11",
+      "ex10",
+      "ex34",
+      "ex16"
+    ],
+    "retrieved_terms": [
+      "review score per seller or category",
+      "average order value (AOV)",
+      "order status",
+      "repeat customer"
+    ],
+    "gold_preview": [
+      [
+        "2eb70248d66e0e3ef83659f71b244378"
+      ],
+      [
+        "1ca7077d890b907f89be8c954a02686a"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "1ca7077d890b907f89be8c954a02686a",
+        "2.33",
+        "114"
+      ],
+      [
+        "2eb70248d66e0e3ef83659f71b244378",
+        "2.69",
+        "198"
+      ]
+    ]
+  },
+  {
+    "id": "h05",
+    "difficulty": "hard",
+    "question": "For repeat customers, what is the average number of days between their first and second order?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH ranked AS (\n    SELECT \n        c.customer_unique_id,\n        o.order_purchase_timestamp AS ts,\n        ROW_NUMBER() OVER (\n            PARTITION BY c.customer_unique_id \n            ORDER BY o.order_purchase_timestamp\n        ) AS rn\n    FROM orders o\n    JOIN customers c \n        ON c.customer_id = o.customer_id\n)\nSELECT \n    ROUND(\n        AVG(\n            date_diff('day', CAST(f.ts AS DATE), CAST(s.ts AS DATE))\n        ), \n        2\n    ) AS avg_days_between_first_second\nFROM ranked f\nJOIN ranked s \n    ON s.customer_unique_id = f.customer_unique_id\nWHERE f.rn = 1 \n  AND s.rn = 2",
+    "gold_sql": "WITH ranked AS (SELECT c.customer_unique_id AS u, o.order_purchase_timestamp AS ts, ROW_NUMBER() OVER (PARTITION BY c.customer_unique_id ORDER BY o.order_purchase_timestamp) AS rn FROM orders o JOIN customers c ON c.customer_id = o.customer_id) SELECT ROUND(AVG(date_diff('day', CAST(f.ts AS DATE), CAST(s.ts AS DATE))), 2) FROM ranked f JOIN ranked s ON s.u = f.u AND f.rn = 1 AND s.rn = 2",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1787,
+    "output_tokens": 476,
+    "cost_usd": 0.0005536499999999999,
+    "seconds": 13.07,
+    "retrieved_examples": [
+      "ex31",
+      "ex09",
+      "ex10",
+      "ex18"
+    ],
+    "retrieved_terms": [
+      "repeat customer",
+      "review score per seller or category",
+      "average order value (AOV)",
+      "estimated vs actual delivery gap"
+    ],
+    "gold_preview": [
+      [
+        "80.35"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "80.35"
+      ]
+    ]
+  },
+  {
+    "id": "h06",
+    "difficulty": "hard",
+    "question": "Which customer state has delivered orders arriving the most days ahead of the estimated delivery date on average?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH early AS (\n    SELECT \n        c.customer_state,\n        date_diff('day',\n                  CAST(o.order_delivered_customer_date AS DATE),\n                  CAST(o.order_estimated_delivery_date AS DATE)\n                 ) AS days_ahead\n    FROM orders o\n    JOIN customers c ON c.customer_id = o.customer_id\n    WHERE o.order_status = 'delivered'\n      AND o.order_delivered_customer_date IS NOT NULL\n)\nSELECT \n    customer_state,\n    ROUND(AVG(days_ahead), 2) AS avg_days_ahead\nFROM early\nGROUP BY customer_state\nORDER BY avg_days_ahead DESC\nLIMIT 1",
+    "gold_sql": "SELECT c.customer_state FROM orders o JOIN customers c ON c.customer_id = o.customer_id WHERE o.order_status = 'delivered' AND o.order_delivered_customer_date IS NOT NULL GROUP BY c.customer_state ORDER BY AVG(date_diff('day', CAST(o.order_delivered_customer_date AS DATE), CAST(o.order_estimated_delivery_date AS DATE))) DESC LIMIT 1",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1883,
+    "output_tokens": 421,
+    "cost_usd": 0.0005350499999999999,
+    "seconds": 9.5,
+    "retrieved_examples": [
+      "ex06",
+      "ex07",
+      "ex15",
+      "ex27"
+    ],
+    "retrieved_terms": [
+      "estimated vs actual delivery gap",
+      "late delivery",
+      "order status",
+      "delivery time"
+    ],
+    "gold_preview": [
+      [
+        "AC"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "AC",
+        "20.73"
+      ]
+    ]
+  },
+  {
+    "id": "h07",
+    "difficulty": "hard",
+    "question": "What percentage of total revenue comes from the top 100 sellers by revenue?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH\n    total_rev AS (\n        SELECT SUM(oi.price) AS revenue\n        FROM orders o\n        JOIN order_items oi ON oi.order_id = o.order_id\n        WHERE o.order_status = 'delivered'\n    ),\n    seller_rev AS (\n        SELECT oi.seller_id,\n               SUM(oi.price) AS revenue\n        FROM orders o\n        JOIN order_items oi ON oi.order_id = o.order_id\n        WHERE o.order_status = 'delivered'\n        GROUP BY oi.seller_id\n    ),\n    ranked_sellers AS (\n        SELECT seller_id,\n               revenue,\n               ROW_NUMBER() OVER (ORDER BY revenue DESC) AS rnk\n        FROM seller_rev\n    ),\n    top100_rev AS (\n        SELECT SUM(revenue) AS revenue\n        FROM ranked_sellers\n        WHERE rnk <= 100\n    )\nSELECT ROUND(100.0 * top100_rev.revenue / total_rev.revenue, 2) AS top_100_share_pct\nFROM top100_rev, total_rev",
+    "gold_sql": "WITH s AS (SELECT oi.seller_id, SUM(oi.price) AS rev FROM orders o JOIN order_items oi ON oi.order_id = o.order_id WHERE o.order_status = 'delivered' GROUP BY oi.seller_id), r AS (SELECT rev, ROW_NUMBER() OVER (ORDER BY rev DESC) AS rn FROM s) SELECT ROUND(100.0 * SUM(CASE WHEN rn <= 100 THEN rev ELSE 0 END) / SUM(rev), 2) FROM r",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1928,
+    "output_tokens": 394,
+    "cost_usd": 0.0005255999999999999,
+    "seconds": 14.33,
+    "retrieved_examples": [
+      "ex20",
+      "ex23",
+      "ex04",
+      "ex16"
+    ],
+    "retrieved_terms": [
+      "top share / concentration",
+      "revenue",
+      "review score per seller or category",
+      "customer spend / amount paid"
+    ],
+    "gold_preview": [
+      [
+        "45.52"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "45.52"
+      ]
+    ]
+  },
+  {
+    "id": "h08",
+    "difficulty": "hard",
+    "question": "Across all order items, which product category has the highest freight ratio among categories with at least 1,000 items? Use English names.",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH category_stats AS (\n    SELECT \n        COALESCE(t.product_category_name_english, p.product_category_name) AS category,\n        COUNT(*) AS items_sold,\n        SUM(oi.freight_value) AS total_freight,\n        SUM(oi.price) AS total_price\n    FROM order_items oi\n    JOIN products p\n        ON p.product_id = oi.product_id\n    LEFT JOIN category_translation t\n        ON t.product_category_name = p.product_category_name\n    GROUP BY category\n    HAVING COUNT(*) >= 1000\n)\nSELECT\n    category,\n    ROUND(total_freight / total_price, 4) AS freight_ratio\nFROM category_stats\nORDER BY freight_ratio DESC\nLIMIT 1",
+    "gold_sql": "SELECT COALESCE(t.product_category_name_english, p.product_category_name) AS category FROM order_items oi JOIN products p ON p.product_id = oi.product_id LEFT JOIN category_translation t ON t.product_category_name = p.product_category_name GROUP BY category HAVING COUNT(*) >= 1000 ORDER BY SUM(oi.freight_value) / SUM(oi.price) DESC LIMIT 1",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1710,
+    "output_tokens": 490,
+    "cost_usd": 0.0005505,
+    "seconds": 14.19,
+    "retrieved_examples": [
+      "ex08",
+      "ex29",
+      "ex17",
+      "ex12"
+    ],
+    "retrieved_terms": [
+      "freight ratio",
+      "category names",
+      "items sold",
+      "review score per seller or category"
+    ],
+    "gold_preview": [
+      [
+        "electronics"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "electronics",
+        "0.2907"
+      ]
+    ]
+  },
+  {
+    "id": "h09",
+    "difficulty": "hard",
+    "question": "How many sellers have sold to customers in more than 20 different states?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH seller_states AS (\n    SELECT DISTINCT \n        oi.seller_id,\n        c.customer_state\n    FROM order_items oi\n    JOIN orders o      ON o.order_id = oi.order_id\n    JOIN customers c   ON c.customer_id = o.customer_id\n)\nSELECT COUNT(*) AS sellers\nFROM (\n    SELECT seller_id,\n           COUNT(DISTINCT customer_state) AS state_cnt\n    FROM seller_states\n    GROUP BY seller_id\n) s\nWHERE state_cnt > 20",
+    "gold_sql": "SELECT COUNT(*) FROM (SELECT oi.seller_id FROM order_items oi JOIN orders o ON o.order_id = oi.order_id JOIN customers c ON c.customer_id = o.customer_id GROUP BY oi.seller_id HAVING COUNT(DISTINCT c.customer_state) > 20) t",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1805,
+    "output_tokens": 384,
+    "cost_usd": 0.00050115,
+    "seconds": 11.13,
+    "retrieved_examples": [
+      "ex16",
+      "ex23",
+      "ex09",
+      "ex29"
+    ],
+    "retrieved_terms": [
+      "items sold",
+      "customer",
+      "review score per seller or category",
+      "repeat customer"
+    ],
+    "gold_preview": [
+      [
+        "69"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "69"
+      ]
+    ]
+  },
+  {
+    "id": "h10",
+    "difficulty": "hard",
+    "question": "Show the cumulative number of orders by month for 2017.",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH monthly AS (\n    SELECT \n        CAST(date_trunc('month', order_purchase_timestamp) AS DATE) AS month,\n        COUNT(DISTINCT order_id) AS orders\n    FROM orders\n    WHERE year(order_purchase_timestamp) = 2017\n    GROUP BY month\n)\nSELECT \n    month,\n    orders,\n    SUM(orders) OVER (ORDER BY month) AS cumulative_orders\nFROM monthly\nORDER BY month",
+    "gold_sql": "SELECT CAST(date_trunc('month', order_purchase_timestamp) AS DATE) AS month, SUM(COUNT(*)) OVER (ORDER BY CAST(date_trunc('month', order_purchase_timestamp) AS DATE)) AS cumulative_orders FROM orders WHERE year(order_purchase_timestamp) = 2017 GROUP BY month",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1818,
+    "output_tokens": 233,
+    "cost_usd": 0.0004125,
+    "seconds": 14.98,
+    "retrieved_examples": [
+      "ex21",
+      "ex05",
+      "ex22",
+      "ex18"
+    ],
+    "retrieved_terms": [
+      "time periods",
+      "items sold",
+      "revenue",
+      "average order value (AOV)"
+    ],
+    "gold_preview": [
+      [
+        "2017-01-01",
+        "800.0"
+      ],
+      [
+        "2017-02-01",
+        "2580.0"
+      ],
+      [
+        "2017-03-01",
+        "5262.0"
+      ],
+      [
+        "2017-04-01",
+        "7666.0"
+      ],
+      [
+        "2017-05-01",
+        "11366.0"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "2017-01-01",
+        "800",
+        "800.0"
+      ],
+      [
+        "2017-02-01",
+        "1780",
+        "2580.0"
+      ],
+      [
+        "2017-03-01",
+        "2682",
+        "5262.0"
+      ],
+      [
+        "2017-04-01",
+        "2404",
+        "7666.0"
+      ],
+      [
+        "2017-05-01",
+        "3700",
+        "11366.0"
+      ]
+    ]
+  },
+  {
+    "id": "h11",
+    "difficulty": "hard",
+    "question": "Which customer spent the most in total on delivered orders?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH order_paid AS (\n    SELECT \n        p.order_id,\n        SUM(p.payment_value) AS paid_amount\n    FROM payments p\n    JOIN orders o ON o.order_id = p.order_id\n    WHERE o.order_status = 'delivered'\n    GROUP BY p.order_id\n)\n\nSELECT \n    c.customer_unique_id,\n    ROUND(SUM(op.paid_amount), 2) AS total_spent\nFROM order_paid op\nJOIN orders o ON o.order_id = op.order_id\nJOIN customers c ON c.customer_id = o.customer_id\nGROUP BY c.customer_unique_id\nORDER BY total_spent DESC\nLIMIT 1",
+    "gold_sql": "SELECT c.customer_unique_id FROM payments p JOIN orders o ON o.order_id = p.order_id JOIN customers c ON c.customer_id = o.customer_id WHERE o.order_status = 'delivered' GROUP BY c.customer_unique_id ORDER BY SUM(p.payment_value) DESC LIMIT 1",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1669,
+    "output_tokens": 276,
+    "cost_usd": 0.00041595,
+    "seconds": 5.94,
+    "retrieved_examples": [
+      "ex15",
+      "ex35",
+      "ex01",
+      "ex09"
+    ],
+    "retrieved_terms": [
+      "customer spend / amount paid",
+      "repeat customer",
+      "customer",
+      "revenue"
+    ],
+    "gold_preview": [
+      [
+        "0a0a92112bd4c708ca5fde585afaa872"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "0a0a92112bd4c708ca5fde585afaa872",
+        "13664.08"
+      ]
+    ]
+  },
+  {
+    "id": "h12",
+    "difficulty": "hard",
+    "question": "In which month of 2017 was the late-delivery rate highest?",
+    "model": "gpt-oss-120b",
+    "rag": true,
+    "correct": true,
+    "sql": "WITH monthly AS (\n    SELECT \n        CAST(date_trunc('month', o.order_purchase_timestamp) AS DATE) AS month,\n        COUNT(*) AS delivered_orders,\n        SUM(CASE \n                WHEN CAST(o.order_delivered_customer_date AS DATE) > CAST(o.order_estimated_delivery_date AS DATE) \n                THEN 1 ELSE 0 \n            END) AS late_orders\n    FROM orders o\n    WHERE o.order_status = 'delivered'\n      AND o.order_delivered_customer_date IS NOT NULL\n      AND EXTRACT(year FROM o.order_purchase_timestamp) = 2017\n    GROUP BY month\n)\nSELECT \n    month,\n    ROUND(100.0 * late_orders / delivered_orders, 2) AS late_delivery_rate_pct\nFROM monthly\nORDER BY late_delivery_rate_pct DESC\nLIMIT 1",
+    "gold_sql": "SELECT CAST(date_trunc('month', order_purchase_timestamp) AS DATE) AS month FROM orders WHERE order_status = 'delivered' AND order_delivered_customer_date IS NOT NULL AND year(order_purchase_timestamp) = 2017 GROUP BY month ORDER BY AVG(CASE WHEN CAST(order_delivered_customer_date AS DATE) > CAST(order_estimated_delivery_date AS DATE) THEN 1 ELSE 0 END) DESC LIMIT 1",
+    "error": null,
+    "cannot_answer": false,
+    "attempts": 1,
+    "input_tokens": 1991,
+    "output_tokens": 437,
+    "cost_usd": 0.0005608499999999999,
+    "seconds": 17.22,
+    "retrieved_examples": [
+      "ex06",
+      "ex21",
+      "ex07",
+      "ex34"
+    ],
+    "retrieved_terms": [
+      "late delivery",
+      "estimated vs actual delivery gap",
+      "delivery time",
+      "order status"
+    ],
+    "gold_preview": [
+      [
+        "2017-11-01"
+      ]
+    ],
+    "pred_preview": [
+      [
+        "2017-11-01",
+        "12.4"
+      ]
+    ]
+  }
+]
