@@ -1,0 +1,11 @@
+.git
+.venv
+venv
+__pycache__
+.pytest_cache
+tests
+data/raw
+data/sample_raw
+data/sample.duckdb
+data/models
+.env

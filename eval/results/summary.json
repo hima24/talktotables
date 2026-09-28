@@ -1,0 +1,36 @@
+{
+  "generated_at": "2026-09-27T19:16:42",
+  "rows": [
+    {
+      "model": "gpt-oss-120b",
+      "label": "GPT-OSS 120B (open-weight)",
+      "rag": true,
+      "n": 40,
+      "accuracy": 97.5,
+      "avg_seconds": 10.97,
+      "errors": 0,
+      "retries_used": 0,
+      "easy": 100.0,
+      "medium": 100.0,
+      "hard": 91.7,
+      "cost_per_100_questions_usd": 0.042,
+      "run_file": "run_20260927_191642.json"
+    },
+    {
+      "model": "claude-haiku",
+      "label": "Claude Haiku 4.5",
+      "rag": true,
+      "n": 40,
+      "accuracy": 92.5,
+      "avg_seconds": 1.38,
+      "errors": 0,
+      "retries_used": 1,
+      "easy": 100.0,
+      "medium": 93.8,
+      "hard": 83.3,
+      "cost_per_100_questions_usd": 0.264,
+      "run_file": "run_20260927_170417.json"
+    }
+  ],
+  "run_file": "run_20260927_191642.json"
+}

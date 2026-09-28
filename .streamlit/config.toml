@@ -1,0 +1,11 @@
+[theme]
+base = "light"
+primaryColor = "#0891b2"
+backgroundColor = "#f6f8fb"
+secondaryBackgroundColor = "#eef2f7"
+textColor = "#0f172a"
+font = "sans serif"
+
+[client]
+# Hides the "Deploy" button and developer menu for visitors
+toolbarMode = "viewer"

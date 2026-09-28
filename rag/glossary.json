@@ -1,0 +1,82 @@
+[
+  {
+    "term": "revenue",
+    "keywords": "revenue sales gmv income earnings sold money made turnover",
+    "definition": "Revenue = SUM(order_items.price) over orders with order_status = 'delivered'. Freight is NOT revenue unless the question says 'including shipping'. Do not use payments for revenue."
+  },
+  {
+    "term": "average order value (AOV)",
+    "keywords": "average order value aov basket size average ticket order size",
+    "definition": "AOV = SUM(order_items.price) / COUNT(DISTINCT orders.order_id), over delivered orders only."
+  },
+  {
+    "term": "late delivery",
+    "keywords": "late delayed on time on-time punctual arrived after estimated deadline delivery performance",
+    "definition": "An order is late when CAST(order_delivered_customer_date AS DATE) > CAST(order_estimated_delivery_date AS DATE). Only delivered orders with a non-NULL order_delivered_customer_date count. Late rate = late orders / those delivered orders, as a percentage."
+  },
+  {
+    "term": "delivery time",
+    "keywords": "delivery time days to deliver shipping time how long lead time",
+    "definition": "Delivery time in days = date_diff('day', CAST(order_purchase_timestamp AS DATE), CAST(order_delivered_customer_date AS DATE)), for delivered orders with a non-NULL delivered date."
+  },
+  {
+    "term": "estimated vs actual delivery gap",
+    "keywords": "estimated actual gap early promised buffer ahead of schedule",
+    "definition": "Days early = date_diff('day', CAST(order_delivered_customer_date AS DATE), CAST(order_estimated_delivery_date AS DATE)). Positive means it arrived before the promised date."
+  },
+  {
+    "term": "customer",
+    "keywords": "customer customers people buyers shoppers clients unique",
+    "definition": "A customer is a customer_unique_id. customers.customer_id changes on every order, so COUNT(DISTINCT customer_unique_id) counts people. Join orders to customers on customer_id, then group by customer_unique_id."
+  },
+  {
+    "term": "repeat customer",
+    "keywords": "repeat returning loyal came back more than one order retention second order",
+    "definition": "A repeat customer is a customer_unique_id with more than one distinct order_id (any status). First/second order = order by order_purchase_timestamp within each customer_unique_id."
+  },
+  {
+    "term": "customer spend / amount paid",
+    "keywords": "spend spent paid payment value amount paid biggest spender",
+    "definition": "What a customer spent or paid = SUM(payments.payment_value) (includes freight and installment interest). Aggregate payments by order first if you also need other tables. For spend on delivered orders, filter orders.order_status = 'delivered'."
+  },
+  {
+    "term": "review score per seller or category",
+    "keywords": "rating review score stars satisfaction per seller per category by seller by category",
+    "definition": "Reviews are per order, but an order can have several items. Before averaging review_score by seller or category, reduce to DISTINCT (seller_id or category, order_id, review_id, review_score) so multi-item orders are not counted several times. 'Reviewed orders' = COUNT(DISTINCT order_id) among those rows."
+  },
+  {
+    "term": "category names",
+    "keywords": "category categories product type english name department",
+    "definition": "Show categories in English: LEFT JOIN category_translation USING (product_category_name) and use COALESCE(product_category_name_english, product_category_name). English names look like 'health_beauty', 'bed_bath_table', 'computers_accessories'."
+  },
+  {
+    "term": "items sold",
+    "keywords": "items sold units quantity number of items products sold volume",
+    "definition": "Each order_items row is one unit sold (order_item_id is a position, not a quantity). Items sold = COUNT(*) of order_items rows."
+  },
+  {
+    "term": "freight ratio",
+    "keywords": "freight ratio shipping cost share freight to price proportion",
+    "definition": "Freight ratio = SUM(freight_value) / SUM(price) over the relevant order_items rows, rounded to 4 decimals unless asked for a percentage."
+  },
+  {
+    "term": "time periods",
+    "keywords": "month monthly year yearly week trend over time per month when date",
+    "definition": "Bucket by purchase time: CAST(date_trunc('month', order_purchase_timestamp) AS DATE) AS month. Filter a year with year(order_purchase_timestamp) = 2017. Month-over-month growth % = 100.0 * (this - previous) / previous, using LAG over months."
+  },
+  {
+    "term": "states and cities",
+    "keywords": "state city sao paulo rio de janeiro minas gerais region location where",
+    "definition": "States are 2-letter codes: Sao Paulo = 'SP', Rio de Janeiro = 'RJ', Minas Gerais = 'MG', Rio Grande do Sul = 'RS', Parana = 'PR', Bahia = 'BA'. Cities are lowercase without accents, e.g. customer_city = 'sao paulo'. Customer location comes from customers, seller location from sellers."
+  },
+  {
+    "term": "order status",
+    "keywords": "status canceled cancelled delivered shipped unavailable open",
+    "definition": "order_status values: delivered, shipped, canceled (one L), unavailable, invoiced, processing, created, approved. Counts of 'orders' include every status unless the question says otherwise."
+  },
+  {
+    "term": "top share / concentration",
+    "keywords": "share percentage of total concentration top sellers contribution pareto",
+    "definition": "Share of total = 100.0 * part / total, computed in one query with a CTE for the total. Round percentages to 2 decimals."
+  }
+]

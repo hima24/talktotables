@@ -1,0 +1,26 @@
+# Secrets - never commit
+.env
+*.env
+!.env.example
+
+# Python / tooling
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Data: the Olist CSVs and DuckDB files are large and rebuilt with python -m src.load_data
+data/raw/
+data/*.duckdb
+data/*.duckdb.wal
+data/models/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Keep eval/results/ (summary.json + run files) so the app's accuracy tab works after cloning

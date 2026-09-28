@@ -1,0 +1,16 @@
+# data (Kaggle license: download it yourself, don't commit it)
+data/raw/
+data/sample_raw/
+data/*.duckdb
+data/*.duckdb.wal
+data/models/
+# eval run details can be large; summary files are committed
+eval/results/run_*.json
+# secrets
+.env
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/

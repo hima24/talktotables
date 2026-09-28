@@ -1,0 +1,182 @@
+[
+  {
+    "id": "ex01",
+    "question": "How many orders have been delivered?",
+    "sql": "SELECT COUNT(*) AS delivered_orders\nFROM orders\nWHERE order_status = 'delivered';"
+  },
+  {
+    "id": "ex02",
+    "question": "How many unique customers live in Minas Gerais?",
+    "sql": "SELECT COUNT(DISTINCT customer_unique_id) AS customers\nFROM customers\nWHERE customer_state = 'MG';"
+  },
+  {
+    "id": "ex03",
+    "question": "What is the average price of an item?",
+    "sql": "SELECT ROUND(AVG(price), 2) AS avg_item_price\nFROM order_items;"
+  },
+  {
+    "id": "ex04",
+    "question": "Which 5 customer states generate the most revenue?",
+    "sql": "SELECT c.customer_state, ROUND(SUM(oi.price), 2) AS revenue\nFROM orders o\nJOIN order_items oi ON oi.order_id = o.order_id\nJOIN customers c ON c.customer_id = o.customer_id\nWHERE o.order_status = 'delivered'\nGROUP BY c.customer_state\nORDER BY revenue DESC\nLIMIT 5;"
+  },
+  {
+    "id": "ex05",
+    "question": "Show revenue for each month of 2018.",
+    "sql": "SELECT CAST(date_trunc('month', o.order_purchase_timestamp) AS DATE) AS month,\n       ROUND(SUM(oi.price), 2) AS revenue\nFROM orders o\nJOIN order_items oi ON oi.order_id = o.order_id\nWHERE o.order_status = 'delivered'\n  AND year(o.order_purchase_timestamp) = 2018\nGROUP BY month\nORDER BY month;"
+  },
+  {
+    "id": "ex06",
+    "question": "What is the late delivery rate for each customer state?",
+    "sql": "SELECT c.customer_state,\n       ROUND(100.0 * AVG(CASE WHEN CAST(o.order_delivered_customer_date AS DATE) > CAST(o.order_estimated_delivery_date AS DATE) THEN 1 ELSE 0 END), 2) AS late_pct\nFROM orders o\nJOIN customers c ON c.customer_id = o.customer_id\nWHERE o.order_status = 'delivered'\n  AND o.order_delivered_customer_date IS NOT NULL\nGROUP BY c.customer_state\nORDER BY late_pct DESC;"
+  },
+  {
+    "id": "ex07",
+    "question": "What is the average delivery time in days by seller state?",
+    "sql": "WITH order_seller_state AS (\n    SELECT DISTINCT o.order_id, s.seller_state,\n           date_diff('day', CAST(o.order_purchase_timestamp AS DATE), CAST(o.order_delivered_customer_date AS DATE)) AS days\n    FROM orders o\n    JOIN order_items oi ON oi.order_id = o.order_id\n    JOIN sellers s ON s.seller_id = oi.seller_id\n    WHERE o.order_status = 'delivered'\n      AND o.order_delivered_customer_date IS NOT NULL\n)\nSELECT seller_state, ROUND(AVG(days), 2) AS avg_delivery_days\nFROM order_seller_state\nGROUP BY seller_state\nORDER BY avg_delivery_days DESC;"
+  },
+  {
+    "id": "ex08",
+    "question": "Which 5 product categories sell the most items? Use English names.",
+    "sql": "SELECT COALESCE(t.product_category_name_english, p.product_category_name) AS category,\n       COUNT(*) AS items_sold\nFROM order_items oi\nJOIN products p ON p.product_id = oi.product_id\nLEFT JOIN category_translation t ON t.product_category_name = p.product_category_name\nGROUP BY category\nORDER BY items_sold DESC\nLIMIT 5;"
+  },
+  {
+    "id": "ex09",
+    "question": "How many customers have placed more than two orders?",
+    "sql": "SELECT COUNT(*) AS customers\nFROM (\n    SELECT c.customer_unique_id\n    FROM orders o\n    JOIN customers c ON c.customer_id = o.customer_id\n    GROUP BY c.customer_unique_id\n    HAVING COUNT(DISTINCT o.order_id) > 2\n) t;"
+  },
+  {
+    "id": "ex10",
+    "question": "What is the average review score for orders delivered on time?",
+    "sql": "SELECT ROUND(AVG(r.review_score), 2) AS avg_score\nFROM orders o\nJOIN reviews r ON r.order_id = o.order_id\nWHERE o.order_status = 'delivered'\n  AND o.order_delivered_customer_date IS NOT NULL\n  AND CAST(o.order_delivered_customer_date AS DATE) <= CAST(o.order_estimated_delivery_date AS DATE);"
+  },
+  {
+    "id": "ex11",
+    "question": "What is the average review score of each seller with at least 30 reviewed orders?",
+    "sql": "WITH seller_reviews AS (\n    SELECT DISTINCT oi.seller_id, r.order_id, r.review_id, r.review_score\n    FROM order_items oi\n    JOIN reviews r ON r.order_id = oi.order_id\n)\nSELECT seller_id, ROUND(AVG(review_score), 2) AS avg_score, COUNT(DISTINCT order_id) AS reviewed_orders\nFROM seller_reviews\nGROUP BY seller_id\nHAVING COUNT(DISTINCT order_id) >= 30\nORDER BY avg_score DESC;"
+  },
+  {
+    "id": "ex12",
+    "question": "How many orders used each payment type?",
+    "sql": "SELECT payment_type, COUNT(DISTINCT order_id) AS orders\nFROM payments\nGROUP BY payment_type\nORDER BY orders DESC;"
+  },
+  {
+    "id": "ex13",
+    "question": "What is the average number of installments for credit card payments?",
+    "sql": "SELECT ROUND(AVG(payment_installments), 2) AS avg_installments\nFROM payments\nWHERE payment_type = 'credit_card';"
+  },
+  {
+    "id": "ex14",
+    "question": "What is the total amount paid with each payment type?",
+    "sql": "SELECT payment_type, ROUND(SUM(payment_value), 2) AS total_paid\nFROM payments\nGROUP BY payment_type\nORDER BY total_paid DESC;"
+  },
+  {
+    "id": "ex15",
+    "question": "Which customer placed the most orders?",
+    "sql": "SELECT c.customer_unique_id, COUNT(DISTINCT o.order_id) AS orders\nFROM orders o\nJOIN customers c ON c.customer_id = o.customer_id\nGROUP BY c.customer_unique_id\nORDER BY orders DESC\nLIMIT 1;"
+  },
+  {
+    "id": "ex16",
+    "question": "Which 10 sellers have the most distinct customers?",
+    "sql": "SELECT oi.seller_id, COUNT(DISTINCT c.customer_unique_id) AS customers\nFROM order_items oi\nJOIN orders o ON o.order_id = oi.order_id\nJOIN customers c ON c.customer_id = o.customer_id\nGROUP BY oi.seller_id\nORDER BY customers DESC\nLIMIT 10;"
+  },
+  {
+    "id": "ex17",
+    "question": "How many orders contain more than 5 items?",
+    "sql": "SELECT COUNT(*) AS orders\nFROM (\n    SELECT order_id\n    FROM order_items\n    GROUP BY order_id\n    HAVING COUNT(*) > 5\n) t;"
+  },
+  {
+    "id": "ex18",
+    "question": "How many orders are placed on each day of the week?",
+    "sql": "SELECT dayname(order_purchase_timestamp) AS weekday, COUNT(*) AS orders\nFROM orders\nGROUP BY weekday, isodow(order_purchase_timestamp)\nORDER BY isodow(order_purchase_timestamp);"
+  },
+  {
+    "id": "ex19",
+    "question": "At what hour of the day are the most orders placed?",
+    "sql": "SELECT hour(order_purchase_timestamp) AS hour_of_day, COUNT(*) AS orders\nFROM orders\nGROUP BY hour_of_day\nORDER BY orders DESC\nLIMIT 1;"
+  },
+  {
+    "id": "ex20",
+    "question": "What percentage of revenue comes from the top 3 categories?",
+    "sql": "WITH cat_rev AS (\n    SELECT COALESCE(t.product_category_name_english, p.product_category_name) AS category,\n           SUM(oi.price) AS revenue\n    FROM orders o\n    JOIN order_items oi ON oi.order_id = o.order_id\n    JOIN products p ON p.product_id = oi.product_id\n    LEFT JOIN category_translation t ON t.product_category_name = p.product_category_name\n    WHERE o.order_status = 'delivered'\n    GROUP BY category\n)\nSELECT ROUND(100.0 * SUM(revenue) FILTER (WHERE rnk <= 3) / SUM(revenue), 2) AS top3_share_pct\nFROM (SELECT revenue, ROW_NUMBER() OVER (ORDER BY revenue DESC) AS rnk FROM cat_rev) x;"
+  },
+  {
+    "id": "ex21",
+    "question": "What was the month-over-month change in the number of orders during 2017?",
+    "sql": "WITH monthly AS (\n    SELECT CAST(date_trunc('month', order_purchase_timestamp) AS DATE) AS month, COUNT(*) AS orders\n    FROM orders\n    WHERE year(order_purchase_timestamp) = 2017\n    GROUP BY month\n)\nSELECT month, orders,\n       ROUND(100.0 * (orders - LAG(orders) OVER (ORDER BY month)) / LAG(orders) OVER (ORDER BY month), 2) AS mom_change_pct\nFROM monthly\nORDER BY month;"
+  },
+  {
+    "id": "ex22",
+    "question": "Show the running total of revenue by month in 2018.",
+    "sql": "WITH monthly AS (\n    SELECT CAST(date_trunc('month', o.order_purchase_timestamp) AS DATE) AS month, SUM(oi.price) AS revenue\n    FROM orders o\n    JOIN order_items oi ON oi.order_id = o.order_id\n    WHERE o.order_status = 'delivered'\n      AND year(o.order_purchase_timestamp) = 2018\n    GROUP BY month\n)\nSELECT month, ROUND(revenue, 2) AS revenue,\n       ROUND(SUM(revenue) OVER (ORDER BY month), 2) AS cumulative_revenue\nFROM monthly\nORDER BY month;"
+  },
+  {
+    "id": "ex23",
+    "question": "Who is the top seller by revenue in each seller state?",
+    "sql": "WITH seller_rev AS (\n    SELECT s.seller_state, oi.seller_id, SUM(oi.price) AS revenue\n    FROM orders o\n    JOIN order_items oi ON oi.order_id = o.order_id\n    JOIN sellers s ON s.seller_id = oi.seller_id\n    WHERE o.order_status = 'delivered'\n    GROUP BY s.seller_state, oi.seller_id\n)\nSELECT seller_state, seller_id, ROUND(revenue, 2) AS revenue\nFROM seller_rev\nQUALIFY ROW_NUMBER() OVER (PARTITION BY seller_state ORDER BY revenue DESC) = 1\nORDER BY revenue DESC;"
+  },
+  {
+    "id": "ex24",
+    "question": "How many hours on average pass between purchase and payment approval?",
+    "sql": "SELECT ROUND(AVG(date_diff('minute', order_purchase_timestamp, order_approved_at)) / 60.0, 2) AS avg_hours_to_approval\nFROM orders\nWHERE order_approved_at IS NOT NULL;"
+  },
+  {
+    "id": "ex25",
+    "question": "Which category has the most 1-star reviews?",
+    "sql": "WITH cat_reviews AS (\n    SELECT DISTINCT COALESCE(t.product_category_name_english, p.product_category_name) AS category,\n           r.order_id, r.review_id, r.review_score\n    FROM reviews r\n    JOIN order_items oi ON oi.order_id = r.order_id\n    JOIN products p ON p.product_id = oi.product_id\n    LEFT JOIN category_translation t ON t.product_category_name = p.product_category_name\n)\nSELECT category, COUNT(*) AS one_star_reviews\nFROM cat_reviews\nWHERE review_score = 1\nGROUP BY category\nORDER BY one_star_reviews DESC\nLIMIT 1;"
+  },
+  {
+    "id": "ex26",
+    "question": "What percentage of reviews include a written comment?",
+    "sql": "SELECT ROUND(100.0 * COUNT(review_comment_message) / COUNT(*), 2) AS pct_with_comment\nFROM reviews;"
+  },
+  {
+    "id": "ex27",
+    "question": "What is the average customer latitude and longitude in each state?",
+    "sql": "WITH zip AS (\n    SELECT geolocation_zip_code_prefix AS zip, AVG(geolocation_lat) AS lat, AVG(geolocation_lng) AS lng\n    FROM geolocation\n    GROUP BY geolocation_zip_code_prefix\n)\nSELECT c.customer_state, ROUND(AVG(z.lat), 4) AS avg_lat, ROUND(AVG(z.lng), 4) AS avg_lng\nFROM customers c\nJOIN zip z ON z.zip = c.customer_zip_code_prefix\nGROUP BY c.customer_state\nORDER BY c.customer_state;"
+  },
+  {
+    "id": "ex28",
+    "question": "Which category has the heaviest products on average?",
+    "sql": "SELECT COALESCE(t.product_category_name_english, p.product_category_name) AS category,\n       ROUND(AVG(p.product_weight_g), 2) AS avg_weight_g\nFROM products p\nLEFT JOIN category_translation t ON t.product_category_name = p.product_category_name\nWHERE p.product_category_name IS NOT NULL\nGROUP BY category\nORDER BY avg_weight_g DESC\nLIMIT 1;"
+  },
+  {
+    "id": "ex29",
+    "question": "What is the freight ratio for each seller state?",
+    "sql": "SELECT s.seller_state, ROUND(SUM(oi.freight_value) / SUM(oi.price), 4) AS freight_ratio\nFROM order_items oi\nJOIN sellers s ON s.seller_id = oi.seller_id\nGROUP BY s.seller_state\nORDER BY freight_ratio DESC;"
+  },
+  {
+    "id": "ex30",
+    "question": "How many orders were canceled each month in 2018?",
+    "sql": "SELECT CAST(date_trunc('month', order_purchase_timestamp) AS DATE) AS month, COUNT(*) AS canceled_orders\nFROM orders\nWHERE order_status = 'canceled'\n  AND year(order_purchase_timestamp) = 2018\nGROUP BY month\nORDER BY month;"
+  },
+  {
+    "id": "ex31",
+    "question": "How many customers placed their second order within 30 days of their first?",
+    "sql": "WITH ranked AS (\n    SELECT c.customer_unique_id, o.order_purchase_timestamp AS ts,\n           ROW_NUMBER() OVER (PARTITION BY c.customer_unique_id ORDER BY o.order_purchase_timestamp) AS rn\n    FROM orders o\n    JOIN customers c ON c.customer_id = o.customer_id\n)\nSELECT COUNT(*) AS customers\nFROM ranked f\nJOIN ranked s ON s.customer_unique_id = f.customer_unique_id AND f.rn = 1 AND s.rn = 2\nWHERE date_diff('day', CAST(f.ts AS DATE), CAST(s.ts AS DATE)) <= 30;"
+  },
+  {
+    "id": "ex32",
+    "question": "What share of revenue comes from customers in Sao Paulo state?",
+    "sql": "SELECT ROUND(100.0 * SUM(CASE WHEN c.customer_state = 'SP' THEN oi.price ELSE 0 END) / SUM(oi.price), 2) AS sp_share_pct\nFROM orders o\nJOIN order_items oi ON oi.order_id = o.order_id\nJOIN customers c ON c.customer_id = o.customer_id\nWHERE o.order_status = 'delivered';"
+  },
+  {
+    "id": "ex33",
+    "question": "Which sellers sold something in 2017 but nothing in 2018?",
+    "sql": "SELECT DISTINCT oi.seller_id\nFROM order_items oi\nJOIN orders o ON o.order_id = oi.order_id\nWHERE year(o.order_purchase_timestamp) = 2017\n  AND oi.seller_id NOT IN (\n      SELECT oi2.seller_id\n      FROM order_items oi2\n      JOIN orders o2 ON o2.order_id = oi2.order_id\n      WHERE year(o2.order_purchase_timestamp) = 2018\n  );"
+  },
+  {
+    "id": "ex34",
+    "question": "What is the average review score for each delivery time bucket?",
+    "sql": "WITH d AS (\n    SELECT o.order_id,\n           date_diff('day', CAST(o.order_purchase_timestamp AS DATE), CAST(o.order_delivered_customer_date AS DATE)) AS days\n    FROM orders o\n    WHERE o.order_status = 'delivered' AND o.order_delivered_customer_date IS NOT NULL\n)\nSELECT CASE WHEN days <= 7 THEN '0-7 days' WHEN days <= 14 THEN '8-14 days' WHEN days <= 30 THEN '15-30 days' ELSE '30+ days' END AS bucket,\n       ROUND(AVG(r.review_score), 2) AS avg_score,\n       COUNT(*) AS reviews\nFROM d\nJOIN reviews r ON r.order_id = d.order_id\nGROUP BY bucket\nORDER BY MIN(days);"
+  },
+  {
+    "id": "ex35",
+    "question": "What is the average amount paid per order for delivered orders?",
+    "sql": "WITH order_paid AS (\n    SELECT p.order_id, SUM(p.payment_value) AS paid\n    FROM payments p\n    JOIN orders o ON o.order_id = p.order_id\n    WHERE o.order_status = 'delivered'\n    GROUP BY p.order_id\n)\nSELECT ROUND(AVG(paid), 2) AS avg_paid_per_order\nFROM order_paid;"
+  },
+  {
+    "id": "ex36",
+    "question": "How many orders were placed by customers in the city of Rio de Janeiro?",
+    "sql": "SELECT COUNT(*) AS orders\nFROM orders o\nJOIN customers c ON c.customer_id = o.customer_id\nWHERE c.customer_city = 'rio de janeiro';"
+  }
+]
