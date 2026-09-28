@@ -1,4 +1,4 @@
-# TalkToTables
+﻿# TalkToTables
 
 **Ask your data questions in plain English, by typing or talking.** TalkToTables writes DuckDB SQL, checks that it is read-only, runs it, and explains the answer (out loud if you like). It works on a benchmarked demo dataset (Olist, 100K real e-commerce orders) or on any CSV, Excel or Parquet files you upload.
 
@@ -21,6 +21,8 @@ What this shows, and what it doesn't:
 ### Where the models went wrong
 
 The most instructive miss was a **join fan-out** bug (question h02, late-delivery rate by product category). The model joined orders to order items, then divided a late-order count taken per item row by a distinct-order count. Orders with several items were counted several times in the numerator, which inflated the rate for some categories and changed the top 5. The verified query de-duplicates order and category first. Every miss is shown side by side with the verified SQL in the app's *How accurate is it?* tab.
+
+![TalkToTables answer view](docs/screenshot1.png)
 
 ## Features
 
