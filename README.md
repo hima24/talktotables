@@ -4,6 +4,8 @@
 
 ![TalkToTables](docs/screenshot.png)
 
+Live deployment on Azure: https://talktotables.bluedune-18917677.northcentralus.azurecontainerapps.io/
+
 ## Results
 
 Benchmarked on **40 questions with hand-checked answers** (12 easy, 16 medium, 12 hard) over the Olist data. A question counts as correct only when the returned data matches the verified answer.
