@@ -58,12 +58,45 @@ flowchart LR
 
 If a query fails with a SQL error, the model gets one chance to fix it using the error message. Unsafe SQL is never retried.
 
+## Agent mode (LangGraph) and tracing (LangSmith)
+
+The default pipeline makes one pass and can only fix SQL that *crashes*. The hardest misses in the benchmark were queries that ran fine but returned the wrong numbers, like the join fan-out above. **Agent mode** (`src/agent.py`, sidebar toggle *🧠 Agent mode*) rebuilds the pipeline as a LangGraph state machine and adds a **review** step: after the SQL runs, the model checks its own query and result against a checklist of common mistakes (join fan-out, wrong filter, wrong grain, percentage scale, empty or implausible result) and can send the query back for one revision.
+
+```mermaid
+flowchart LR
+    R[retrieve] --> W[write_sql]
+    W --> G{guardrails}
+    G -- unsafe --> X[blocked, never retried]
+    G -- safe --> S[run_sql]
+    S -- SQL error --> W
+    S --> V{review}
+    V -- REVISE --> W
+    V -- OK --> A[summarize]
+```
+
+- Each box is a node that reads and updates one shared state; the branching arrows are conditional edges.
+- Limits keep it bounded: up to 2 SQL-error fixes and 1 review per question.
+- If a revision makes things worse (the revised SQL fails), the agent falls back to the last query that ran successfully.
+- Guardrails are unchanged: unsafe SQL still ends the run, and every query runs on the read-only database.
+- Each answer shows the path the agent took (for example `write_sql → run_sql → review:revise → write_sql → ...`) and the reviewer's note.
+
+**Tracing.** Set `LANGSMITH_TRACING=true` and `LANGSMITH_API_KEY` in `.env` to send every agent run to [LangSmith](https://smith.langchain.com). Each run shows one span per node and per model call, with the prompt, reply, token counts and latency, so you can see exactly where a wrong answer went wrong. With tracing off, nothing is sent.
+
+Benchmark agent mode against the single pass:
+
+```bash
+python -m eval.run_eval --models gpt-oss-120b --rag on --agent
+```
+
+Agent rows are added to the summary as "<model> + agent", next to the single-pass rows.
+
 ## Project structure
 
 ```
 app.py                 Streamlit app (Ask tab + benchmark tab)
 src/
   assistant.py         question -> SQL -> guarded execution -> answer
+  agent.py             agent mode: LangGraph state machine with self-review, LangSmith tracing
   llm.py               one complete() function; providers: Anthropic, Groq (OpenAI-compatible), Ollama
   config.py            model registry, limits, paths
   guardrails.py        SQL safety checks (layer 1)
