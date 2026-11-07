@@ -25,6 +25,7 @@ from datetime import datetime
 from pathlib import Path
 
 from src import config
+from src.agent import SQLAgent
 from src.assistant import SQLAssistant
 from src.db import Database
 from src.retriever import Retriever, tokenize, load_examples
@@ -68,13 +69,14 @@ def check_gold(db: Database, questions: list[dict]) -> None:
 def summarize(records: list[dict]) -> dict:
     groups = defaultdict(list)
     for r in records:
-        groups[(r["model"], r["rag"])].append(r)
+        groups[(r["model"], r["rag"], r.get("agent", False))].append(r)
     rows = []
-    for (model, rag), rs in sorted(groups.items()):
+    for (model, rag, agent), rs in sorted(groups.items()):
         row = {
             "model": model,
-            "label": config.MODELS[model]["label"],
+            "label": config.MODELS[model]["label"] + (" + agent" if agent else ""),
             "rag": rag,
+            "agent": agent,
             "n": len(rs),
             "accuracy": round(100 * sum(r["correct"] for r in rs) / len(rs), 1),
             "avg_seconds": round(sum(r["seconds"] for r in rs) / len(rs), 2),
@@ -95,9 +97,9 @@ def merge_with_previous(summary: dict, run_file: str, previous: dict | None) -> 
     for row in summary["rows"]:
         row["run_file"] = run_file
     if previous:
-        done = {(r["model"], r["rag"]) for r in summary["rows"]}
+        done = {(r["model"], r["rag"], r.get("agent", False)) for r in summary["rows"]}
         for row in previous.get("rows", []):
-            if (row["model"], row["rag"]) not in done:
+            if (row["model"], row["rag"], row.get("agent", False)) not in done:
                 row.setdefault("run_file", previous.get("run_file"))
                 summary["rows"].append(row)
     summary["rows"].sort(key=lambda r: (-r["accuracy"], r["label"], not r["rag"]))
@@ -132,6 +134,7 @@ def main(argv=None):
     ap.add_argument("--db", default=config.DB_PATH)
     ap.add_argument("--check-gold", action="store_true", help="print every gold answer and exit")
     ap.add_argument("--no-save", action="store_true")
+    ap.add_argument("--agent", action="store_true", help="run the LangGraph agent (self-review) instead of the single pass")
     ap.add_argument("--fresh", action="store_true", help="replace the whole summary instead of adding to it")
     args = ap.parse_args(argv)
 
@@ -157,7 +160,7 @@ def main(argv=None):
         except Exception as e:
             sys.exit(f"Gold SQL for {q['id']} failed: {e}. Fix eval/questions.json first.")
 
-    assistant = SQLAssistant(db=db, retriever=Retriever())
+    assistant = (SQLAgent if args.agent else SQLAssistant)(db=db, retriever=Retriever())
     print(f"Retrieval backend: {assistant.retriever.backend}")
     rag_modes = {"on": [True], "off": [False], "both": [False, True]}[args.rag]
 
@@ -172,9 +175,10 @@ def main(argv=None):
                 hits += correct
                 records.append({
                     "id": q["id"], "difficulty": q["difficulty"], "question": q["question"],
-                    "model": model, "rag": use_rag, "correct": correct,
+                    "model": model, "rag": use_rag, "agent": args.agent, "correct": correct,
                     "sql": res.sql, "gold_sql": q["sql"], "error": res.error,
                     "cannot_answer": res.cannot_answer, "attempts": res.attempts,
+                    "reviews": res.reviews, "review_note": res.review_note, "steps": res.steps,
                     "input_tokens": res.input_tokens, "output_tokens": res.output_tokens,
                     "cost_usd": res.cost_usd, "seconds": round(res.seconds, 2),
                     "retrieved_examples": [e["id"] for e in res.examples],

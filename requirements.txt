@@ -8,3 +8,5 @@ fastembed>=0.4
 openpyxl
 sqlparse
 streamlit-mic-recorder
+langgraph>=0.2
+langsmith>=0.1

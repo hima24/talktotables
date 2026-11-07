@@ -18,6 +18,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 from src import config, llm
+from src.agent import SQLAgent
 from src.assistant import SQLAssistant
 from src.db import Database
 from src.retriever import Retriever
@@ -750,6 +751,12 @@ def render_result(res, dark: bool, name: str, speak: str = "off", newest: bool =
             with st.expander("Show SQL"):
                 st.code(fmt_sql(res.sql), language="sql", wrap_lines=True)  # st.code has a built-in copy button
 
+        if getattr(res, "steps", None):
+            with st.expander("How the agent worked"):
+                st.markdown(" → ".join(f"`{step}`" for step in res.steps))
+                if res.review_note:
+                    st.markdown(f"**Reviewer asked for a revision:** {html.escape(res.review_note)}")
+
         if res.examples:
             with st.expander("What retrieval found for this question"):
                 if res.terms:
@@ -768,6 +775,7 @@ def render_result(res, dark: bool, name: str, speak: str = "off", newest: bool =
             f"<span class='chip'>{res.input_tokens + res.output_tokens:,} tokens</span>{cost}"
             f"<span class='chip'>retrieval {'on' if res.used_rag else 'off'}</span>"
             + ("<span class='chip'>↪ follow-up</span>" if getattr(res, "followed_up", False) else "") +
+            ("<span class='chip'>🧠 agent</span>" if getattr(res, "steps", None) else "") +
             ""
             f"<span class='chip'>{res.attempts} attempt{'s' if res.attempts != 1 else ''}</span>"
             "</div>",
@@ -798,6 +806,9 @@ def ask_tab(dark: bool):
         talk_back = st.toggle("🔊 Read answers aloud", key="talk_back",
                               help="Speaks each new answer with your browser's built-in voice. "
                                    "Every answer also has a Listen button.")
+        agent_mode = st.toggle("🧠 Agent mode (self-review)", value=False, key="agent_mode",
+                               help="Runs a LangGraph agent: after the SQL runs, the model reviews its own query "
+                                    "and result and can revise it once. Slower and costs about one extra call.")
         follow_up = st.toggle("💬 Follow-up questions", value=True, key="follow_up",
                               help="Lets you ask follow-ups like 'what about 2017?' or 'now by state'. "
                                    "The previous question and its SQL are sent along with the new one.")
@@ -844,7 +855,8 @@ def ask_tab(dark: bool):
                 asked = (f"Earlier question: {prev.question}\nSQL used for it:\n{prev.sql}\n\n"
                          f"New question (it may build on the earlier one, e.g. 'what about 2017?' or "
                          f"'now split by state'; if it doesn't, ignore the earlier one): {question}")
-            res = ctx["assistant"].ask(asked, model=model, use_rag=use_rag and ctx["rag"])
+            runner = SQLAgent.from_assistant(ctx["assistant"]) if agent_mode else ctx["assistant"]
+            res = runner.ask(asked, model=model, use_rag=use_rag and ctx["rag"])
             res.question = question  # show what the person actually asked
             res.followed_up = asked != question
             st.session_state.speak_next = id(res)

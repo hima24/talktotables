@@ -55,6 +55,10 @@ class AskResult:
     terms: list[dict] = field(default_factory=list)
     llm_calls: list[llm.LLMResponse] = field(default_factory=list)
     seconds: float = 0.0
+    # agent mode only (src/agent.py): which graph nodes ran, and the reviewer's note if it asked for a revision
+    steps: list[str] = field(default_factory=list)
+    reviews: int = 0
+    review_note: str | None = None
 
     @property
     def ok(self) -> bool:
